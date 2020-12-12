@@ -7,34 +7,34 @@ namespace QWarhammerSimulator::LibWarhammerEngine
 
 struct Characteristics
 {
-	using Type = std::int8_t;
-	
-	// Movement (M)
-	Type m;
+    using Type = std::int8_t;
 
-	// Weapon Skill (WS)
-	Type ws;
+    // Movement (M)
+    Type m;
 
-	// Ballistic Skill (BS)
-	Type bs;
+    // Weapon Skill (WS)
+    Type ws;
 
-	// Strength (S)
-	Type s;
+    // Ballistic Skill (BS)
+    Type bs;
 
-	// Toughness (T)
-	Type t;
+    // Strength (S)
+    Type s;
 
-	// Wounds (W)
-	Type w;
+    // Toughness (T)
+    Type t;
 
-	// INITIATIVE (I)
-	Type i;
+    // Wounds (W)
+    Type w;
 
-	// ATTACKS (A)
-	Type a;
+    // INITIATIVE (I)
+    Type i;
 
-	// LEADERSHIP (Ld)
-	Type ld;
+    // ATTACKS (A)
+    Type a;
+
+    // LEADERSHIP (Ld)
+    Type ld;
 };
 
-} // namespace CppGraphQL::LibClient
+} // namespace QWarhammerSimulator::LibWarhammerEngine

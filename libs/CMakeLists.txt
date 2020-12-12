@@ -1,1 +1,2 @@
 add_subdirectory(libwarhammerengine)
+add_subdirectory(libgeometry)
