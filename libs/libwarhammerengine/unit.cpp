@@ -1,5 +1,7 @@
 #include "unit.hpp"
 
+#include <cmath>
+
 namespace QWarhammerSimulator::LibWarhammerEngine
 {
 
@@ -20,7 +22,7 @@ LibGeometry::Point Unit::rectangleSize() const
 {
     return {
         m_number_of_models_in_a_row * m_model.base_size.x,
-        m_number_of_models / m_number_of_models_in_a_row * m_model.base_size.y,
+        std::ceil((double)m_number_of_models / m_number_of_models_in_a_row) * m_model.base_size.y,
     };
 }
 

@@ -14,9 +14,17 @@ TEST_CASE("Basic Unit Management")
 	SECTION("")
     {
         Model empire_halberdier{"empire halberdier", Point{1, 1}, Characteristics{4, 3, 3, 3, 3, 1, 3, 1, 7}};
-        Unit halberdier_unit{empire_halberdier, 20, 5};
-        CHECK(halberdier_unit.rectangle().width() == 5);
-        CHECK(halberdier_unit.rectangle().height() == 4);
+        Unit halberdier_unit_20{empire_halberdier, 20, 5};
+        CHECK(halberdier_unit_20.rectangle().width() == 5);
+        CHECK(halberdier_unit_20.rectangle().height() == 4);
+
+        Unit halberdier_unit_16{empire_halberdier, 16, 5};
+        CHECK(halberdier_unit_16.rectangle().width() == 5);
+        CHECK(halberdier_unit_16.rectangle().height() == 4);
+
+        Unit halberdier_unit_15{empire_halberdier, 15, 5};
+        CHECK(halberdier_unit_15.rectangle().width() == 5);
+        CHECK(halberdier_unit_15.rectangle().height() == 3);
     }
 
 }
