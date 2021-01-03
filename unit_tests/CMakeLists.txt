@@ -8,5 +8,3 @@ target_link_libraries(${EXE_TARGET_NAME} QWarhammerSimulator::LibWarhammerEngine
 include(CTest)
 include(Catch)
 catch_discover_tests(${EXE_TARGET_NAME})
-
-# add_test(NAME ${EXE_TARGET_NAME} COMMAND ${EXE_TARGET_NAME} -r junit)
