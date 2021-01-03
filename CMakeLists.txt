@@ -33,6 +33,8 @@ conan_cmake_run(REQUIRES catch2/2.13.3 BASIC_SETUP CMAKE_TARGETS BUILD missing)
 conan_cmake_run(REQUIRES tl-expected/20190710 BASIC_SETUP CMAKE_TARGETS BUILD missing)
 conan_cmake_run(REQUIRES ms-gsl/3.1.0 BASIC_SETUP CMAKE_TARGETS BUILD missing)
 
+enable_testing()
+
 add_subdirectory(libs)
 add_subdirectory(unit_tests)
 add_subdirectory(QWarhammerSimulator)
