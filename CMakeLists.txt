@@ -12,7 +12,7 @@ else()
 	add_definitions("-fprofile-arcs")
 	add_definitions("-ftest-coverage")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage  -lstdc++fs")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 endif()
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) 
