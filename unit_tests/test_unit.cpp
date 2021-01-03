@@ -8,7 +8,7 @@ using QWarhammerSimulator::LibWarhammerEngine::Unit;
 
 using QWarhammerSimulator::LibGeometry::Point;
 
-TEST_CASE("Basic Unit Management")
+TEST_CASE("Basic Unit Management", "[LibWarhammerEngine]")
 {
 
 	SECTION("")

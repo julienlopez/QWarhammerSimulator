@@ -12,6 +12,10 @@ public:
 
     const Point& center() const;
 
+    Point topLeft() const;
+
+    Point topRight() const;
+
     Point forwardUnitVector() const;
 
     void moveForward(double distance);
