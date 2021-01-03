@@ -5,8 +5,8 @@ add_executable(${EXE_TARGET_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${EXE_TARGET_NAME} QWarhammerSimulator::LibWarhammerEngine CONAN_PKG::catch2)
 
-#include(CTest)
-#include(Catch)
-#catch_discover_tests(${EXE_TARGET_NAME})
+include(CTest)
+include(Catch)
+catch_discover_tests(${EXE_TARGET_NAME})
 
-add_test(NAME ${EXE_TARGET_NAME} COMMAND ${EXE_TARGET_NAME} -r junit)
+# add_test(NAME ${EXE_TARGET_NAME} COMMAND ${EXE_TARGET_NAME} -r junit)
