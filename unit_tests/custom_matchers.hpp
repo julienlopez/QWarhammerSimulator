@@ -15,9 +15,9 @@ namespace PointMatcher
     {
         EqualsMatcher(const Point& ref, const double epsilon);
 
-        bool match(const Point& other) const;
+        virtual bool match(const Point& other) const override;
 
-        std::string describe() const override;
+        virtual std::string describe() const override;
 
     private:
         const Point& m_ref;
