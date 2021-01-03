@@ -63,4 +63,9 @@ double Rectangle::width() const
     return m_size.x;
 }
 
+double Rectangle::orientation() const
+{
+    return m_orientation;
+}
+
 } // namespace QWarhammerSimulator::LibGeometry

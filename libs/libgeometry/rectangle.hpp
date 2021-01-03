@@ -24,6 +24,8 @@ public:
 
     double width() const;
 
+    double orientation() const; // in radians
+
 private:
     Point m_center;
     double m_orientation; // in radians
