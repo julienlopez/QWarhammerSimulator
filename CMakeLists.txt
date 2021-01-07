@@ -35,6 +35,10 @@ conan_cmake_run(REQUIRES ms-gsl/3.1.0 BASIC_SETUP CMAKE_TARGETS BUILD missing)
 
 enable_testing()
 
+set(QWS_BUILD_GUI OFF CACHE BOOL "enable GUI building")
+
 add_subdirectory(libs)
 add_subdirectory(unit_tests)
-add_subdirectory(QWarhammerSimulator)
+if(${QWS_BUILD_GUI})
+	add_subdirectory(QWarhammerSimulator)
+endif()
