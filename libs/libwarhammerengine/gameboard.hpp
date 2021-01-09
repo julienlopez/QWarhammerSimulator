@@ -1,18 +1,13 @@
 #pragma once
 
-#include "unit.hpp"
-
-#include <vector>
+#include "point.hpp"
 
 namespace QWarhammerSimulator::LibWarhammerEngine
 {
 
-class Army
+struct GameBoard
 {
-public:
-private:
-    std::string name;
-    std::vector<Unit> m_units;
+    LibGeometry::Point size;
 };
 
 } // namespace QWarhammerSimulator::LibWarhammerEngine
