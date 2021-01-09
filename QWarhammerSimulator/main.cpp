@@ -1,7 +1,11 @@
-#include <iostream>
+#include "mainwindow.hpp"
 
-int main()
+#include <QApplication>
+
+int main(int argc, char* argv[])
 {
-
-    return EXIT_SUCCESS;
+    QApplication app{argc, argv};
+    QWarhammerSimulator::Gui::MainWindow m;
+    m.show();
+    return app.exec();
 }
