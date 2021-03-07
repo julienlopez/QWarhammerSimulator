@@ -16,7 +16,7 @@ auto setupEmpireArmy()
 
     Model empire_halberdier{"empire halberdier", Point{1, 1}, Characteristics{4, 3, 3, 3, 3, 1, 3, 1, 7}};
     const Unit halberdier_unit_20{empire_halberdier, 20, 5};
-    army.units.push_back(halberdier_unit_20);
+    army.m_units.push_back(halberdier_unit_20);
 
     return army;
 }
