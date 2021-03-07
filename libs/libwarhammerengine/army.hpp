@@ -10,7 +10,7 @@ namespace QWarhammerSimulator::LibWarhammerEngine
 class Army
 {
 public:
-private:
+// private:
     std::string name;
     std::vector<Unit> m_units;
 };

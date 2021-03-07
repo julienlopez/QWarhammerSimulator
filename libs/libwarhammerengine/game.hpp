@@ -32,7 +32,7 @@ public:
 private:
     GameBoard m_board;
     std::array<Army, 2> m_armies;
-    std::size_t m_current_player;
+    std::size_t m_current_player = 0;
 };
 
 } // namespace QWarhammerSimulator::LibWarhammerEngine
