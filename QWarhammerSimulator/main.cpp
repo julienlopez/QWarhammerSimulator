@@ -39,7 +39,7 @@ auto setupGame()
 
     auto game = std::make_unique<Game>();
     game->army(0) = setupEmpireArmy();
-    game->army(0) = setupOrcArmy();
+    game->army(1) = setupOrcArmy();
 
     return game;
 }
@@ -49,8 +49,7 @@ auto setupGame()
 int main(int argc, char* argv[])
 {
     QApplication app{argc, argv};
-    auto game = setupGame();
-    QWarhammerSimulator::Gui::MainWindow m;
+    QWarhammerSimulator::Gui::MainWindow m{setupGame()};
     m.showMaximized();
     return app.exec();
 }

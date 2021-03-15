@@ -12,7 +12,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game = nullptr, QWidget* parent = nullptr);
+    explicit MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* parent = nullptr);
 
     virtual ~MainWindow() = default;
 

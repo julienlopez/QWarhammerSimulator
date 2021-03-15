@@ -14,8 +14,6 @@ MainWindow::MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* 
     : QMainWindow(parent)
     , m_game(std::move(game))
 {
-    if(!game) m_game = std::make_unique<LibWarhammerEngine::Game>();
-
     auto* w = new QWidget;
     auto* vl = new QVBoxLayout;
 
