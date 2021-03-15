@@ -1,5 +1,7 @@
 #include "mainwindow.hpp"
 
+#include "game.hpp"
+
 #include "commandpanel.hpp"
 #include "header.hpp"
 #include "screen.hpp"
@@ -17,15 +19,17 @@ MainWindow::MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* 
     auto* w = new QWidget;
     auto* vl = new QVBoxLayout;
 
-    vl->addWidget(new Header);
+    vl->addWidget(new Header{*game});
 
     auto* hl = new QHBoxLayout;
-    hl->addWidget(new Screen);
+    hl->addWidget(new Screen{*game});
     hl->addWidget(new CommandPanel);
     vl->addLayout(hl);
 
     w->setLayout(vl);
     setCentralWidget(w);
 }
+
+MainWindow::~MainWindow() = default;
 
 } // namespace QWarhammerSimulator::Gui

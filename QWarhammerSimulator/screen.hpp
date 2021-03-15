@@ -2,19 +2,30 @@
 
 #include <QWidget>
 
-namespace QWarhammerSimulator::Gui
+namespace QWarhammerSimulator
 {
 
-class Screen : public QWidget
+namespace LibWarhammerEngine
 {
-    Q_OBJECT
+    class Game;
+}
 
-public:
-    explicit Screen(QWidget* parent = nullptr);
+namespace Gui
+{
 
-    virtual ~Screen() = default;
+    class Screen : public QWidget
+    {
+        Q_OBJECT
 
-private:
-};
+    public:
+        explicit Screen(const LibWarhammerEngine::Game& game, QWidget* parent = nullptr);
 
-} // namespace QWarhammerSimulator::Gui
+        virtual ~Screen() = default;
+
+    private:
+        const LibWarhammerEngine::Game& m_game;
+    };
+
+} // namespace Gui
+
+} // namespace QWarhammerSimulator

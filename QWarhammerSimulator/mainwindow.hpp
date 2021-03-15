@@ -1,23 +1,31 @@
 #pragma once
 
-#include "game.hpp"
-
 #include <QMainWindow>
 
-namespace QWarhammerSimulator::Gui
+namespace QWarhammerSimulator
 {
 
-class MainWindow : public QMainWindow
+namespace LibWarhammerEngine
 {
-    Q_OBJECT
+    class Game;
+}
 
-public:
-    explicit MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* parent = nullptr);
+namespace Gui
+{
 
-    virtual ~MainWindow() = default;
+    class MainWindow : public QMainWindow
+    {
+        Q_OBJECT
 
-private:
-    std::unique_ptr<LibWarhammerEngine::Game> m_game;
-};
+    public:
+        explicit MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* parent = nullptr);
 
-} // namespace QWarhammerSimulator::Gui
+        virtual ~MainWindow();
+
+    private:
+        std::unique_ptr<LibWarhammerEngine::Game> m_game;
+    };
+
+} // namespace Gui
+
+} // namespace QWarhammerSimulator

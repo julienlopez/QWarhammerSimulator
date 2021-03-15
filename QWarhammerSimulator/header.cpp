@@ -1,12 +1,13 @@
-#pragma once
-
 #include "header.hpp"
+
+#include "game.hpp"
 
 namespace QWarhammerSimulator::Gui
 {
 
-Header::Header(QWidget* parent)
+Header::Header(const LibWarhammerEngine::Game& game, QWidget* parent)
     : QWidget(parent)
+    , m_game(game)
 {
 }
 

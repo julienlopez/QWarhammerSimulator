@@ -2,19 +2,30 @@
 
 #include <QWidget>
 
-namespace QWarhammerSimulator::Gui
+namespace QWarhammerSimulator
 {
 
-class Header : public QWidget
+namespace LibWarhammerEngine
 {
-    Q_OBJECT
+    class Game;
+}
 
-public:
-    explicit Header(QWidget* parent = nullptr);
+namespace Gui
+{
 
-    virtual ~Header() = default;
+    class Header : public QWidget
+    {
+        Q_OBJECT
 
-private:
-};
+    public:
+        explicit Header(const LibWarhammerEngine::Game& game, QWidget* parent = nullptr);
 
-} // namespace QWarhammerSimulator::Gui
+        virtual ~Header() = default;
+
+    private:
+        const LibWarhammerEngine::Game& m_game;
+    };
+
+} // namespace Gui
+
+} // namespace QWarhammerSimulator
