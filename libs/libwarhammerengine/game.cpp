@@ -3,6 +3,11 @@
 namespace QWarhammerSimulator::LibWarhammerEngine
 {
 
+Game::Game(GameBoard board)
+    : m_board(std::move(board))
+{
+}
+
 const GameBoard& Game::board() const
 {
     return m_board;

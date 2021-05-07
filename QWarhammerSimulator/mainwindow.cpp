@@ -19,10 +19,10 @@ MainWindow::MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* 
     auto* w = new QWidget;
     auto* vl = new QVBoxLayout;
 
-    vl->addWidget(new Header{*game});
+    vl->addWidget(new Header{*m_game});
 
     auto* hl = new QHBoxLayout;
-    hl->addWidget(new Screen{*game});
+    hl->addWidget(new Screen{*m_game});
     hl->addWidget(new CommandPanel);
     vl->addLayout(hl);
 

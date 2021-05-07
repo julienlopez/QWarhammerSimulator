@@ -11,7 +11,9 @@ namespace QWarhammerSimulator::LibWarhammerEngine
 class Game
 {
 public:
-    Game() = default;
+    Game() = delete;
+
+    Game(GameBoard board);
 
     const GameBoard& board() const;
 

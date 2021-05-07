@@ -2,12 +2,15 @@
 
 #include <QWidget>
 
+class QPainter;
+
 namespace QWarhammerSimulator
 {
 
 namespace LibWarhammerEngine
 {
     class Game;
+    class Unit;
 }
 
 namespace Gui
@@ -22,8 +25,21 @@ namespace Gui
 
         virtual ~Screen() = default;
 
+    protected:
+        virtual void paintEvent(QPaintEvent* evt) override;
+
+        virtual void resizeEvent(QResizeEvent* evt) override;
+
     private:
         const LibWarhammerEngine::Game& m_game;
+        QPoint m_offset;
+        double m_resolution_factor;
+
+        const QSize m_minimum_margin{50,50};
+
+        void drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const;
+        
+        void drawBoard(QPainter& p) const;
     };
 
 } // namespace Gui
