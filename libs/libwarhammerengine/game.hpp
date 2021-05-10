@@ -2,6 +2,7 @@
 
 #include "army.hpp"
 #include "gameboard.hpp"
+#include "turnphasemanager.hpp"
 
 #include <array>
 
@@ -18,8 +19,8 @@ public:
     const GameBoard& board() const;
 
     /**
-    * @pre index < 2
-    */
+     * @pre index < 2
+     */
     Army& army(const std::size_t index);
 
     /**
@@ -29,12 +30,16 @@ public:
 
     std::size_t currentPlayer() const;
 
-    void switchToNextPlayer();
+    TurnPhase currentPhase() const;
+
+    std::size_t currentTurnNumber() const;
+
+    void endCurrentPhase();
 
 private:
     GameBoard m_board;
     std::array<Army, 2> m_armies;
-    std::size_t m_current_player = 0;
+    TurnPhaseManager m_turn_phase;
 };
 
 } // namespace QWarhammerSimulator::LibWarhammerEngine

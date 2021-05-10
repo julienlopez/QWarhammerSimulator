@@ -25,12 +25,22 @@ const Army& Game::army(const std::size_t index) const
 
 std::size_t Game::currentPlayer() const
 {
-    return m_current_player;
+    return m_turn_phase.currentPlayer();
 }
 
-void Game::switchToNextPlayer()
+TurnPhase Game::currentPhase() const
 {
-    m_current_player = m_current_player + 1 % m_armies.size();
+    return m_turn_phase.currentPhase();
+}
+
+std::size_t Game::currentTurnNumber() const
+{
+    return m_turn_phase.currentTurnNumber();
+}
+
+void Game::endCurrentPhase()
+{
+    m_turn_phase.endCurrentPhase();
 }
 
 } // namespace QWarhammerSimulator::LibWarhammerEngine
