@@ -37,7 +37,7 @@ auto setupGame()
     using namespace QWarhammerSimulator::LibWarhammerEngine;
     using namespace QWarhammerSimulator::LibGeometry;
 
-    auto game = std::make_unique<Game>(GameBoard{100, 100});
+    auto game = std::make_unique<Game>(GameBoard{75, 50});
     game->army(0) = setupEmpireArmy();
     game->army(1) = setupOrcArmy();
 
