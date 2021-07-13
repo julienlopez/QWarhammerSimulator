@@ -1,7 +1,11 @@
 #include "screen.hpp"
 
+#include "screen_event_handler/iscreeneventhanlder.hpp"
+#include "screen_event_handler/screeneventhanlderfactory.hpp"
+
 #include "game.hpp"
 
+#include <QMouseEvent>
 #include <QPainter>
 #include <QResizeEvent>
 
@@ -35,6 +39,16 @@ void Screen::resizeEvent(QResizeEvent* evt)
     m_resolution_factor = std::min((double)screen_size.width() / map_size.x, (double)screen_size.height() / map_size.y);
     const auto sized_map = map_size * m_resolution_factor;
     m_offset = QPoint{(int)(evt->size().width() - sized_map.x), (int)(evt->size().height() - sized_map.y)} / 2;
+}
+
+void Screen::mouseReleaseEvent(QMouseEvent* evt)
+{
+    auto* event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
+    if(event_handler)
+    {
+        event_handler->onClick(evt->pos(), evt->buttons());
+        evt->accept();
+    }
 }
 
 void Screen::drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const
