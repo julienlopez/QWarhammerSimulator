@@ -19,11 +19,17 @@ MainWindow::MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* 
     auto* w = new QWidget;
     auto* vl = new QVBoxLayout;
 
-    vl->addWidget(new Header{*m_game});
+    auto* m_header = new Header{*m_game};
+    vl->addWidget(m_header);
 
     auto* hl = new QHBoxLayout;
     hl->addWidget(new Screen{*m_game});
-    hl->addWidget(new CommandPanel);
+    auto* command_panel = new CommandPanel;
+    connect(command_panel, &CommandPanel::endPhasePressed, [this, m_header]() {
+        m_game->endCurrentPhase();
+        m_header->updateGame();
+    });
+    hl->addWidget(command_panel);
     vl->addLayout(hl);
 
     w->setLayout(vl);

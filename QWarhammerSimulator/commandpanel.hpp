@@ -14,6 +14,9 @@ public:
 
     virtual ~CommandPanel() = default;
 
+signals:
+    void endPhasePressed();
+
 private:
 };
 
