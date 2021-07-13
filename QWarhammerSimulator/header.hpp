@@ -13,6 +13,8 @@ namespace LibWarhammerEngine
 namespace Gui
 {
 
+    class PlayerHeader;
+
     class Header : public QWidget
     {
         Q_OBJECT
@@ -27,9 +29,9 @@ namespace Gui
 
     private:
         const LibWarhammerEngine::Game& m_game;
-        std::array<QWidget*, 2> m_widgets;
+        std::array<PlayerHeader*, 2> m_widgets;
 
-        QWidget* setupPlayerWidget(const std::size_t player_index);
+        PlayerHeader* setupPlayerWidget(const std::size_t player_index);
     };
 
 } // namespace Gui
