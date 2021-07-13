@@ -30,6 +30,8 @@ namespace Gui
 
         virtual void resizeEvent(QResizeEvent* evt) override;
 
+        virtual void mouseReleaseEvent(QMouseEvent* evt) override;
+
     private:
         const LibWarhammerEngine::Game& m_game;
         QPoint m_offset;
