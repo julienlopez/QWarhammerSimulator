@@ -2,7 +2,7 @@
 
 #include <QPoint>
 
-namespace QWarhammerSimulator::Gui
+namespace QWarhammerSimulator::Gui::ScreenEventHandler
 {
 
 class IScreenEventHandler
@@ -16,4 +16,4 @@ public:
     virtual bool onClick(const QPoint& pos) = 0;
 };
 
-} // namespace QWarhammerSimulator::Gui
+} // namespace QWarhammerSimulator::Gui::ScreenEventHandler

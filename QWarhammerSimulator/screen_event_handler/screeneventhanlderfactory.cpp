@@ -2,7 +2,7 @@
 
 #include "iscreeneventhanlder.hpp"
 
-namespace QWarhammerSimulator::Gui
+namespace QWarhammerSimulator::Gui::ScreenEventHandler
 {
 
 ScreenEventHandlerFactory::~ScreenEventHandlerFactory() = default;
@@ -20,4 +20,4 @@ ScreenEventHandlerFactory& ScreenEventHandlerFactory::instance()
     return s_instance;
 }
 
-}
+} // namespace QWarhammerSimulator::Gui::ScreenEventHandler

@@ -5,7 +5,7 @@
 #include <map>
 #include <memory>
 
-namespace QWarhammerSimulator::Gui
+namespace QWarhammerSimulator::Gui::ScreenEventHandler
 {
 
 class IScreenEventHandler;
@@ -17,7 +17,7 @@ public:
 
     /**
      * @brief returns the screen event handler if there is one for the given phase
-     * 
+     *
      * Returns a null pointer if there is no handler for the given phase
      */
     IScreenEventHandler* get(const LibWarhammerEngine::TurnPhase phase) const;
@@ -30,4 +30,4 @@ private:
     std::map<LibWarhammerEngine::TurnPhase, std::unique_ptr<IScreenEventHandler>> m_handlers;
 };
 
-} // namespace QWarhammerSimulator::Gui
+} // namespace QWarhammerSimulator::Gui::ScreenEventHandler
