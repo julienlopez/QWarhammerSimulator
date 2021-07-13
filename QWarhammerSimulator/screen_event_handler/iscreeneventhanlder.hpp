@@ -13,7 +13,7 @@ protected:
 public:
     virtual ~IScreenEventHandler() = default;
 
-    virtual bool onClick(const QPoint& pos) = 0;
+    virtual bool onClick(const QPoint& pos, const Qt::MouseButtons buttons) = 0;
 };
 
 } // namespace QWarhammerSimulator::Gui::ScreenEventHandler

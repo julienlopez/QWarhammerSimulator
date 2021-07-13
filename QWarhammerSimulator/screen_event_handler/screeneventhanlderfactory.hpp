@@ -20,7 +20,10 @@ public:
      *
      * Returns a null pointer if there is no handler for the given phase
      */
-    IScreenEventHandler* get(const LibWarhammerEngine::TurnPhase phase) const;
+    static IScreenEventHandler* get(const LibWarhammerEngine::TurnPhase phase);
+
+    static bool registerHandler(const LibWarhammerEngine::TurnPhase phase,
+                                std::unique_ptr<IScreenEventHandler> handler);
 
 private:
     explicit ScreenEventHandlerFactory() = default;
