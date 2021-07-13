@@ -22,7 +22,9 @@ add_executable(
   "commandpanel.cpp"
   "playerheader.hpp"
   "playerheader.cpp"
-  "iscreeneventhanlder.hpp")
+  "iscreeneventhanlder.hpp"
+  "screeneventhanlderfactory.hpp"
+  "screeneventhanlderfactory.cpp")
 
 target_link_libraries(
   ${EXE_TARGET_NAME} PRIVATE QWarhammerSimulator::LibWarhammerEngine

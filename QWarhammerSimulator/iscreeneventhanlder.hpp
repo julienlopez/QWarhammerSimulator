@@ -1,7 +1,5 @@
 #pragma once
 
-#include "turnphasemanager.hpp"
-
 #include <QPoint>
 
 namespace QWarhammerSimulator::Gui
