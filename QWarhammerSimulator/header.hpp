@@ -22,8 +22,14 @@ namespace Gui
 
         virtual ~Header() = default;
 
+    public slots:
+        void updateGame();
+
     private:
         const LibWarhammerEngine::Game& m_game;
+        std::array<QWidget*, 2> m_widgets;
+
+        QWidget* setupPlayerWidget(const std::size_t player_index);
     };
 
 } // namespace Gui
