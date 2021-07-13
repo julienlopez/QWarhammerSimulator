@@ -17,14 +17,14 @@ public:
     virtual ~PlayerHeader() = default;
 
 public slots:
-    void setIsHighlighted(bool is_highlighted);
+    void setIsHighlighted(const bool is_highlighted);
 
-    void setCurrentPhase(LibWarhammerEngine::TurnPhase turn_phase);
+    void setCurrentPhase(const LibWarhammerEngine::TurnPhase turn_phase);
 
 private:
     std::map<LibWarhammerEngine::TurnPhase, QPushButton*> m_phase_widgets;
 
-    QPushButton* createPhaseWidget(LibWarhammerEngine::TurnPhase turn_phase, const QString& label);
+    QPushButton* createPhaseWidget(const LibWarhammerEngine::TurnPhase turn_phase, const QString& label);
 };
 
 } // namespace QWarhammerSimulator::Gui

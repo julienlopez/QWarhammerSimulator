@@ -30,7 +30,7 @@ Header::Header(const LibWarhammerEngine::Game& game, QWidget* parent)
 void Header::updateGame()
 {
     for(std::size_t i = 0; i < m_widgets.size(); i++)
-        m_widgets[i]->setIsHighlighted(m_game.currentPlayer() != i);
+        m_widgets[i]->setIsHighlighted(m_game.currentPlayer() == i);
     m_widgets[m_game.currentPlayer()]->setCurrentPhase(m_game.currentPhase());
 }
 

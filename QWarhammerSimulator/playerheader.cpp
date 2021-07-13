@@ -25,18 +25,21 @@ PlayerHeader::PlayerHeader(const QString& label, QWidget* parent)
     setFrameStyle(QFrame::Box);
 }
 
-void PlayerHeader::setIsHighlighted(bool is_highlighted)
+void PlayerHeader::setIsHighlighted(const bool is_highlighted)
 {
-    setFrameStyle(QFrame::Box | (is_highlighted ? QFrame::Raised : 0));
+    setFrameStyle(QFrame::Box | (is_highlighted ? 0 : QFrame::Raised));
+    if(is_highlighted == false)
+        for(const auto& p : m_phase_widgets)
+            p.second->setChecked(false);
 }
 
-void PlayerHeader::setCurrentPhase(TurnPhase turn_phase)
+void PlayerHeader::setCurrentPhase(const TurnPhase turn_phase)
 {
     for(const auto& p : m_phase_widgets)
         p.second->setChecked(p.first == turn_phase);
 }
 
-QPushButton* PlayerHeader::createPhaseWidget(TurnPhase turn_phase, const QString& label)
+QPushButton* PlayerHeader::createPhaseWidget(const TurnPhase turn_phase, const QString& label)
 {
     auto* res = new QPushButton(label);
     res->setCheckable(true);
