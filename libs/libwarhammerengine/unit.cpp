@@ -7,11 +7,12 @@
 namespace QWarhammerSimulator::LibWarhammerEngine
 {
 
-Unit::Unit(Model model, std::size_t number_of_models, std::size_t number_of_models_in_a_row)
+Unit::Unit(Model model, std::size_t number_of_models, std::size_t number_of_models_in_a_row, LibGeometry::Point center,
+           const double orientation)
     : m_model(std::move(model))
     , m_number_of_models(number_of_models)
     , m_number_of_models_in_a_row(number_of_models_in_a_row)
-    , m_rectangle(LibGeometry::Point{0, 0}, 0., rectangleSize())
+    , m_rectangle(std::move(center), orientation, rectangleSize())
 {
 }
 
