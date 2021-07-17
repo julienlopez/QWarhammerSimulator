@@ -33,4 +33,6 @@ Point operator/(Point p, const double factor);
 
 std::ostream& operator<<(std::ostream& o, const Point& p);
 
+double dot(const Point& p1, const Point& p2);
+
 } // namespace QWarhammerSimulator::LibGeometry
