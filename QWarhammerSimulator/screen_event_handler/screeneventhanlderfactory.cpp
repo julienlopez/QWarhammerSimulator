@@ -19,7 +19,7 @@ bool ScreenEventHandlerFactory::registerHandler(const LibWarhammerEngine::TurnPh
 {
     auto it = instance().m_handlers.find(phase);
     if(it != end(instance().m_handlers)) return false;
-    it->second = std::move(handler);
+    instance().m_handlers[phase] = std::move(handler);
     return true;
 }
 
