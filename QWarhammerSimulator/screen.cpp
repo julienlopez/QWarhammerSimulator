@@ -46,8 +46,8 @@ void Screen::mouseReleaseEvent(QMouseEvent* evt)
     auto* event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
     if(event_handler)
     {
-        event_handler->onClick(evt->pos(), evt->buttons());
-        evt->accept();
+        if(event_handler->onClick(evt->pos(), evt->buttons()))
+            evt->accept();
     }
 }
 

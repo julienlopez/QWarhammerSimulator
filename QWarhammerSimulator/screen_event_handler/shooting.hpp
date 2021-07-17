@@ -13,6 +13,8 @@ public:
     virtual ~Shooting() = default;
 
     virtual bool onClick(const QPoint& pos, const Qt::MouseButtons buttons) override;
+
+    static const bool c_is_registered;
 };
 
 } // namespace QWarhammerSimulator::Gui::ScreenEventHandler
