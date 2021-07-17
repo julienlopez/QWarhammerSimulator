@@ -2,18 +2,29 @@
 
 #include <QPoint>
 
-namespace QWarhammerSimulator::Gui::ScreenEventHandler
+namespace QWarhammerSimulator
 {
 
-class IScreenEventHandler
+namespace LibWarhammerEngine
 {
-protected:
-    explicit IScreenEventHandler() = default;
+    class Game;
+}
 
-public:
-    virtual ~IScreenEventHandler() = default;
+namespace Gui::ScreenEventHandler
+{
 
-    virtual bool onClick(const QPoint& pos, const Qt::MouseButtons buttons) = 0;
-};
+    class IScreenEventHandler
+    {
+    protected:
+        explicit IScreenEventHandler() = default;
 
-} // namespace QWarhammerSimulator::Gui::ScreenEventHandler
+    public:
+        virtual ~IScreenEventHandler() = default;
+
+        virtual bool onClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
+            = 0;
+    };
+
+} // namespace Gui::ScreenEventHandler
+
+} // namespace QWarhammerSimulator

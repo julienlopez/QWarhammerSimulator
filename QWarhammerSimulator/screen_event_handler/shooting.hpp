@@ -2,19 +2,33 @@
 
 #include "iscreeneventhanlder.hpp"
 
-namespace QWarhammerSimulator::Gui::ScreenEventHandler
+namespace QWarhammerSimulator
 {
 
-class Shooting : public IScreenEventHandler
+namespace LibWarhammerEngine
 {
-public:
-    explicit Shooting() = default;
+    class Army;
+}
 
-    virtual ~Shooting() = default;
+namespace Gui::ScreenEventHandler
+{
 
-    virtual bool onClick(const QPoint& pos, const Qt::MouseButtons buttons) override;
+    class Shooting : public IScreenEventHandler
+    {
+    public:
+        explicit Shooting() = default;
 
-    static const bool c_is_registered;
-};
+        virtual ~Shooting() = default;
 
-} // namespace QWarhammerSimulator::Gui::ScreenEventHandler
+        virtual bool onClick(const LibWarhammerEngine::Game& game, const QPoint& pos,
+                             const Qt::MouseButtons buttons) override;
+
+    private:
+        std::optional<std::size_t> unitIndex(const LibWarhammerEngine::Army& army, const QPoint& pos) const;
+
+        static const bool c_is_registered;
+    };
+
+} // namespace Gui::ScreenEventHandler
+
+} // namespace QWarhammerSimulator

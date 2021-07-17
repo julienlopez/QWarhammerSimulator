@@ -42,6 +42,8 @@ namespace Gui
         void drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const;
         
         void drawBoard(QPainter& p) const;
+
+        QPoint screenToBoard(const QPoint& screen_pos) const;
     };
 
 } // namespace Gui

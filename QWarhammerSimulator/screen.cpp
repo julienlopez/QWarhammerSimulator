@@ -46,8 +46,7 @@ void Screen::mouseReleaseEvent(QMouseEvent* evt)
     auto* event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
     if(event_handler)
     {
-        if(event_handler->onClick(evt->pos(), evt->buttons()))
-            evt->accept();
+        if(event_handler->onClick(m_game, screenToBoard(evt->pos()), evt->buttons())) evt->accept();
     }
 }
 
@@ -79,6 +78,12 @@ void Screen::drawBoard(QPainter& p) const
     p.setBrush(Qt::green);
     p.drawRect(0, 0, m_game.board().size.x, m_game.board().size.y);
     p.restore();
+}
+
+QPoint Screen::screenToBoard(const QPoint& screen_pos) const
+{
+    const auto res = screen_pos - m_offset;
+    return {(int)(res.x() / m_resolution_factor), (int)(res.y() / m_resolution_factor)};
 }
 
 } // namespace QWarhammerSimulator::Gui
