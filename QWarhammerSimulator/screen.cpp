@@ -12,15 +12,29 @@
 namespace QWarhammerSimulator::Gui
 {
 
+namespace
+{
+    QPoint fromPoint(const LibGeometry::Point& point)
+    {
+        return {(int)(point.x), (int)(point.y)};
+    }
+
+} // namespace
+
 Screen::Screen(const LibWarhammerEngine::Game& game, QWidget* parent)
     : QWidget(parent)
     , m_game(game)
+    , m_offset(0, 0)
+    , m_resolution_factor(-1.)
 {
 }
 
 void Screen::paintEvent(QPaintEvent* evt)
 {
     QPainter p{this};
+    drawBackground(p);
+    p.translate(m_offset);
+    p.scale(m_resolution_factor, m_resolution_factor);
     drawBoard(p);
     for(std::size_t i = 0; i < 2; i++)
     {
@@ -58,25 +72,26 @@ void Screen::drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const
     pen.setWidthF(0.1);
     p.setPen(pen);
     const auto& rect = unit.rectangle();
-    p.drawRect(rect.topLeft().x, rect.topLeft().y, rect.width(), rect.height());
+    p.drawPolyline(QPolygon{fromPoint(rect.topLeft()), fromPoint(rect.topRight()), fromPoint(rect.bottomRight()),
+                            fromPoint(rect.bottomLeft()), fromPoint(rect.topLeft())});
     p.restore();
 }
 
 void Screen::drawBoard(QPainter& p) const
 {
     p.save();
-    p.setPen(Qt::black);
-    p.setBrush(Qt::black);
-    p.drawRect(rect());
-    p.restore();
-
-    p.translate(m_offset);
-    p.scale(m_resolution_factor, m_resolution_factor);
-
-    p.save();
     p.setPen(Qt::green);
     p.setBrush(Qt::green);
     p.drawRect(0, 0, m_game.board().size.x, m_game.board().size.y);
+    p.restore();
+}
+
+void Screen::drawBackground(QPainter& p) const
+{
+    p.save();
+    p.setPen(Qt::black);
+    p.setBrush(Qt::black);
+    p.drawRect(rect());
     p.restore();
 }
 

@@ -43,6 +43,8 @@ namespace Gui
         
         void drawBoard(QPainter& p) const;
 
+        void drawBackground(QPainter& p) const;
+
         QPoint screenToBoard(const QPoint& screen_pos) const;
     };
 
