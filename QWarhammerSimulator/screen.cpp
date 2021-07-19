@@ -19,6 +19,12 @@ namespace
         return {(int)(point.x), (int)(point.y)};
     }
 
+    void drawRectangle(QPainter& p, const LibGeometry::Rectangle& rect)
+    {
+        p.drawPolyline(QPolygon{fromPoint(rect.topLeft()), fromPoint(rect.topRight()), fromPoint(rect.bottomRight()),
+                                fromPoint(rect.bottomLeft()), fromPoint(rect.topLeft())});
+    }
+
 } // namespace
 
 Screen::Screen(const LibWarhammerEngine::Game& game, QWidget* parent)
@@ -71,9 +77,13 @@ void Screen::drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const
     pen.setColor(Qt::black);
     pen.setWidthF(0.1);
     p.setPen(pen);
+    
     const auto& rect = unit.rectangle();
-    p.drawPolyline(QPolygon{fromPoint(rect.topLeft()), fromPoint(rect.topRight()), fromPoint(rect.bottomRight()),
-                            fromPoint(rect.bottomLeft()), fromPoint(rect.topLeft())});
+    drawRectangle(p, rect);
+
+    for(std::size_t i = 0; i < unit.numberOfModels(); i++)
+        drawRectangle(p, unit.modelRectangle(i));
+
     p.restore();
 }
 

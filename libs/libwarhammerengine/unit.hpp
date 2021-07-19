@@ -22,6 +22,11 @@ public:
      */
     void removeModels(const std::size_t number_of_models_to_remove);
 
+    /**
+     * @pre model_index <= m_number_of_models
+     */
+    LibGeometry::Rectangle modelRectangle(const std::size_t model_index) const;
+
 private:
     Model m_model;
     std::size_t m_number_of_models;
