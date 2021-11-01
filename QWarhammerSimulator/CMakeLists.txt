@@ -29,7 +29,8 @@ add_executable(
   "screen_event_handler/shooting.cpp")
 
 target_link_libraries(
-  ${EXE_TARGET_NAME} PRIVATE QWarhammerSimulator::LibWarhammerEngine
+  ${EXE_TARGET_NAME} PRIVATE QWarhammerSimulator::LibUtils
+                             QWarhammerSimulator::LibWarhammerEngine
                              Qt6::Widgets Qt6::Gui Qt6::Core)
 
 # copy the required librairies

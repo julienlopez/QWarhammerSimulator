@@ -1,2 +1,3 @@
+add_subdirectory(libutils)
 add_subdirectory(libwarhammerengine)
 add_subdirectory(libgeometry)

@@ -9,8 +9,12 @@
 #include <QPainter>
 #include <QResizeEvent>
 
+using std::placeholders::_1;
+
 namespace QWarhammerSimulator::Gui
 {
+
+using ScreenEventHandler::IScreenEventHandler;
 
 namespace
 {
@@ -63,11 +67,13 @@ void Screen::resizeEvent(QResizeEvent* evt)
 
 void Screen::mouseReleaseEvent(QMouseEvent* evt)
 {
-    auto* event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
-    if(event_handler)
-    {
-        if(event_handler->onClick(m_game, screenToBoard(evt->pos()), evt->buttons())) evt->accept();
-    }
+    auto event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
+    event_handler
+        .map(std::bind(std::mem_fn(&IScreenEventHandler::onClick), _1, m_game, screenToBoard(evt->pos()), evt->buttons()))
+        .map([&evt](const bool has_acted) {
+            if(has_acted) evt->accept();
+            return has_acted;
+        });
 }
 
 void Screen::drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const

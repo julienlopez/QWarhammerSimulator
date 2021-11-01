@@ -7,7 +7,7 @@ namespace QWarhammerSimulator::Gui::ScreenEventHandler
 
 ScreenEventHandlerFactory::~ScreenEventHandlerFactory() = default;
 
-IScreenEventHandler* ScreenEventHandlerFactory::get(const LibWarhammerEngine::TurnPhase phase)
+LibUtils::MonadicPointer<IScreenEventHandler> ScreenEventHandlerFactory::get(const LibWarhammerEngine::TurnPhase phase)
 {
     const auto it = instance().m_handlers.find(phase);
     if(it == end(instance().m_handlers)) return nullptr;
