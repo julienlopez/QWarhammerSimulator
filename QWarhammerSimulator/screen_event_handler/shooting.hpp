@@ -2,6 +2,8 @@
 
 #include "iscreeneventhanlder.hpp"
 
+#include <boost/optional.hpp>
+
 namespace QWarhammerSimulator
 {
 
@@ -23,10 +25,14 @@ namespace Gui::ScreenEventHandler
         virtual bool onClick(const LibWarhammerEngine::Game& game, const QPoint& pos,
                              const Qt::MouseButtons buttons) override;
 
+        virtual bool drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const override;
+
     private:
-        std::optional<std::size_t> unitIndex(const LibWarhammerEngine::Army& army, const QPoint& pos) const;
+        boost::optional<std::size_t> unitIndex(const LibWarhammerEngine::Army& army, const QPoint& pos) const;
 
         static const bool c_is_registered;
+
+        boost::optional<std::size_t> m_current_selection;
     };
 
 } // namespace Gui::ScreenEventHandler

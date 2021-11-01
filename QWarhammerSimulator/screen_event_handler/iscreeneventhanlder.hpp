@@ -2,6 +2,8 @@
 
 #include <QPoint>
 
+class QPainter;
+
 namespace QWarhammerSimulator
 {
 
@@ -23,6 +25,9 @@ namespace Gui::ScreenEventHandler
 
         virtual bool onClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
             = 0;
+
+        virtual bool drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const = 0;
+
     };
 
 } // namespace Gui::ScreenEventHandler

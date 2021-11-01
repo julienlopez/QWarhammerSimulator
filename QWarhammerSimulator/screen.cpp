@@ -4,6 +4,7 @@
 #include "screen_event_handler/screeneventhanlderfactory.hpp"
 
 #include "game.hpp"
+#include "utils.hpp"
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -15,21 +16,6 @@ namespace QWarhammerSimulator::Gui
 {
 
 using ScreenEventHandler::IScreenEventHandler;
-
-namespace
-{
-    QPoint fromPoint(const LibGeometry::Point& point)
-    {
-        return {(int)(point.x), (int)(point.y)};
-    }
-
-    void drawRectangle(QPainter& p, const LibGeometry::Rectangle& rect)
-    {
-        p.drawPolyline(QPolygon{fromPoint(rect.topLeft()), fromPoint(rect.topRight()), fromPoint(rect.bottomRight()),
-                                fromPoint(rect.bottomLeft()), fromPoint(rect.topLeft())});
-    }
-
-} // namespace
 
 Screen::Screen(const LibWarhammerEngine::Game& game, QWidget* parent)
     : QWidget(parent)
@@ -54,6 +40,9 @@ void Screen::paintEvent(QPaintEvent* evt)
             drawUnit(p, unit);
         }
     }
+    auto event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
+    event_handler.map(
+        std::bind(std::mem_fn(&IScreenEventHandler::drawAdditionalStates), _1, std::cref(m_game), std::ref(p)));
 }
 
 void Screen::resizeEvent(QResizeEvent* evt)
@@ -70,8 +59,9 @@ void Screen::mouseReleaseEvent(QMouseEvent* evt)
     auto event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
     event_handler
         .map(std::bind(std::mem_fn(&IScreenEventHandler::onClick), _1, m_game, screenToBoard(evt->pos()), evt->buttons()))
-        .map([&evt](const bool has_acted) {
+        .map([this, &evt](const bool has_acted) {
             if(has_acted) evt->accept();
+            update();
             return has_acted;
         });
 }
@@ -85,10 +75,10 @@ void Screen::drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const
     p.setPen(pen);
     
     const auto& rect = unit.rectangle();
-    drawRectangle(p, rect);
+    Utils::drawRectangle(p, rect);
 
     for(std::size_t i = 0; i < unit.numberOfModels(); i++)
-        drawRectangle(p, unit.modelRectangle(i));
+        Utils::drawRectangle(p, unit.modelRectangle(i));
 
     p.restore();
 }
