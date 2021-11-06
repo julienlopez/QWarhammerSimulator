@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+#include <gsl/gsl_assert>
+
 #include <QPainter>
 
 namespace QWarhammerSimulator::Gui::ScreenEventHandler
@@ -25,19 +27,10 @@ namespace
 bool Shooting::onClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
 {
     std::cout << "Shooting::onClick(" << toPoint(pos) << ")" << std::endl;
-    m_current_selection = unitIndex(game.army(game.currentPlayer()), pos);
-    return m_current_selection
-        .map([this, &game](const std::size_t unit_index) {
-            std::cout << "Unit clicked : " << unit_index << std::endl;
-            const auto& unit = game.army(game.currentPlayer()).m_units[unit_index];
-            std::cout << unit.rectangle().topLeft() << std::endl;
-            std::cout << unit.rectangle().bottomRight() << std::endl;
-            return true;
-        })
-        .value_or_eval([this]() {
-            m_current_selection = boost::none;
-            return false;
-        });
+    if(m_current_selection)
+        return selectTarget(game, pos);
+    else
+        return selectShooter(game, pos);
 }
 
 bool Shooting::drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const
@@ -68,5 +61,29 @@ boost::optional<std::size_t> Shooting::unitIndex(const LibWarhammerEngine::Army&
 
 const bool Shooting::c_is_registered
     = ScreenEventHandlerFactory::registerHandler(LibWarhammerEngine::TurnPhase::Shooting, std::make_unique<Shooting>());
+
+bool Shooting::selectShooter(const LibWarhammerEngine::Game& game, const QPoint& pos)
+{
+    Expects(m_current_selection.has_value() == false);
+    m_current_selection = unitIndex(game.army(game.currentPlayer()), pos);
+    return m_current_selection
+        .map([this, &game](const std::size_t unit_index) {
+            std::cout << "Unit clicked : " << unit_index << std::endl;
+            const auto& unit = game.army(game.currentPlayer()).m_units[unit_index];
+            std::cout << unit.rectangle().topLeft() << std::endl;
+            std::cout << unit.rectangle().bottomRight() << std::endl;
+            return true;
+        })
+        .value_or_eval([this]() {
+            m_current_selection = boost::none;
+            return false;
+        });
+}
+
+bool Shooting::selectTarget(const LibWarhammerEngine::Game& game, const QPoint& pos)
+{
+    Expects(m_current_selection.has_value());
+    const auto target = unitIndex(game.army(game.currentPlayer() + 1 % 2), pos);
+}
 
 } // namespace QWarhammerSimulator::Gui::ScreenEventHandler

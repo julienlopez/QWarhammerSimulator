@@ -33,6 +33,16 @@ namespace Gui::ScreenEventHandler
         static const bool c_is_registered;
 
         boost::optional<std::size_t> m_current_selection;
+
+        /**
+        * @pre m_current_selection.has_value() == false
+        */
+        bool selectShooter(const LibWarhammerEngine::Game& game, const QPoint& pos);
+
+        /**
+        * @pre m_current_selection.has_value()
+        */
+        bool selectTarget(const LibWarhammerEngine::Game& game, const QPoint& pos);
     };
 
 } // namespace Gui::ScreenEventHandler
