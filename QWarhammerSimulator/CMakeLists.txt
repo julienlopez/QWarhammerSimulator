@@ -19,7 +19,7 @@ add_executable(
   "playerheader.cpp"
   "screen_event_handler/screeneventhanlderfactory.cpp"
   "screen_event_handler/shooting.cpp"
-  "utils.cpp")
+  "utils.cpp" "selection.hpp" )
 
 target_link_libraries(
   ${EXE_TARGET_NAME} PRIVATE QWarhammerSimulator::LibUtils

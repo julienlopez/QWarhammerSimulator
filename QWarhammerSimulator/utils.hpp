@@ -1,5 +1,6 @@
 #pragma once
 
+class QColor;
 class QPainter;
 class QPoint;
 
@@ -10,15 +11,29 @@ namespace LibGeometry
 {
     struct Point;
     struct Rectangle;
+} // namespace LibGeometry
+
+namespace LibWarhammerEngine
+{
+    class Game;
 }
 
-namespace Gui::Utils
+namespace Gui
 {
+    struct Selection;
 
-    QPoint fromPoint(const LibGeometry::Point& point);
+    namespace Utils
+    {
 
-    void drawRectangle(QPainter& p, const LibGeometry::Rectangle& rect);
+        QPoint fromPoint(const LibGeometry::Point& point);
 
-} // namespace Gui::Utils
+        void drawRectangle(QPainter& p, const LibGeometry::Rectangle& rect);
+
+        void paintSelection(QPainter& painter, const LibWarhammerEngine::Game& game, const Selection& selection,
+                            const QColor& color);
+
+    } // namespace Utils
+
+} // namespace Gui
 
 } // namespace QWarhammerSimulator

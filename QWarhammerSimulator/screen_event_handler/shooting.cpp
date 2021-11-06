@@ -36,15 +36,8 @@ bool Shooting::onClick(const LibWarhammerEngine::Game& game, const QPoint& pos, 
 bool Shooting::drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const
 {
     return m_current_selection
-        .map([this, &game, &p](const std::size_t unit_index) {
-            const auto& unit = game.army(game.currentPlayer()).m_units[unit_index];
-            p.save();
-            auto pen = p.pen();
-            pen.setColor(Qt::yellow);
-            pen.setWidthF(0.2);
-            p.setPen(pen);
-            Utils::drawRectangle(p, unit.rectangle());
-            p.restore();
+        .map([this, &game, &p](const Selection selection) {
+            Utils::paintSelection(p, game, selection, Qt::yellow);
             return true;
         })
         .value_or(false);
@@ -64,12 +57,11 @@ const bool Shooting::c_is_registered
 
 bool Shooting::selectShooter(const LibWarhammerEngine::Game& game, const QPoint& pos)
 {
-    Expects(m_current_selection.has_value() == false);
     m_current_selection = unitIndex(game.army(game.currentPlayer()), pos);
     return m_current_selection
-        .map([this, &game](const std::size_t unit_index) {
-            std::cout << "Unit clicked : " << unit_index << std::endl;
-            const auto& unit = game.army(game.currentPlayer()).m_units[unit_index];
+        .map([this, &game](const Selection selection) {
+            std::cout << "Unit clicked : " << selection.unit_index << std::endl;
+            const auto& unit = game.army(game.currentPlayer()).m_units[selection.unit_index];
             std::cout << unit.rectangle().topLeft() << std::endl;
             std::cout << unit.rectangle().bottomRight() << std::endl;
             return true;

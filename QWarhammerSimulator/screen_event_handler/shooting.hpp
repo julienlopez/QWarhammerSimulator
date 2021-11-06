@@ -2,6 +2,8 @@
 
 #include "iscreeneventhanlder.hpp"
 
+#include "../selection.hpp"
+
 #include <boost/optional.hpp>
 
 namespace QWarhammerSimulator
@@ -32,11 +34,9 @@ namespace Gui::ScreenEventHandler
 
         static const bool c_is_registered;
 
-        boost::optional<std::size_t> m_current_selection;
+        boost::optional<Selection> m_current_selection;
+        boost::optional<Selection> m_current_target;
 
-        /**
-        * @pre m_current_selection.has_value() == false
-        */
         bool selectShooter(const LibWarhammerEngine::Game& game, const QPoint& pos);
 
         /**
