@@ -24,13 +24,18 @@ namespace
 
 } // namespace
 
-bool Shooting::onClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
+bool Shooting::onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
 {
     std::cout << "Shooting::onClick(" << toPoint(pos) << ")" << std::endl;
     if(m_current_selection)
         return selectTarget(game, pos);
     else
         return selectShooter(game, pos);
+}
+
+bool Shooting::onMouseMove(const LibWarhammerEngine::Game& game, const QPoint& pos)
+{
+    return false;
 }
 
 bool Shooting::drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const

@@ -23,11 +23,16 @@ namespace Gui::ScreenEventHandler
     public:
         virtual ~IScreenEventHandler() = default;
 
-        virtual bool onClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
+        virtual bool onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& pos,
+                                  const Qt::MouseButtons buttons)
             = 0;
 
-        virtual bool drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const = 0;
+        virtual bool onMouseMove(const LibWarhammerEngine::Game& game, const QPoint& pos)
+        {
+            return false;
+        }
 
+        virtual bool drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const = 0;
     };
 
 } // namespace Gui::ScreenEventHandler

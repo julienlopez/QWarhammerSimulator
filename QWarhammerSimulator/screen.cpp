@@ -58,10 +58,29 @@ void Screen::mouseReleaseEvent(QMouseEvent* evt)
 {
     auto event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
     event_handler
-        .map(std::bind(std::mem_fn(&IScreenEventHandler::onClick), _1, m_game, screenToBoard(evt->pos()), evt->buttons()))
+        .map(std::bind(std::mem_fn(&IScreenEventHandler::onMouseClick), _1, m_game, screenToBoard(evt->pos()),
+                       evt->buttons()))
         .map([this, &evt](const bool has_acted) {
-            if(has_acted) evt->accept();
-            update();
+            if(has_acted)
+            {
+                evt->accept();
+                update();
+            }
+            return has_acted;
+        });
+}
+
+void Screen::mouseMoveEvent(QMouseEvent* evt)
+{
+    auto event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
+    event_handler
+        .map(std::bind(std::mem_fn(&IScreenEventHandler::onMouseMove), _1, m_game, screenToBoard(evt->pos())))
+        .map([this, &evt](const bool has_acted) {
+            if(has_acted)
+            {
+                evt->accept();
+                update();
+            }
             return has_acted;
         });
 }
@@ -73,7 +92,7 @@ void Screen::drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const
     pen.setColor(Qt::black);
     pen.setWidthF(0.1);
     p.setPen(pen);
-    
+
     const auto& rect = unit.rectangle();
     Utils::drawRectangle(p, rect);
 

@@ -24,8 +24,10 @@ namespace Gui::ScreenEventHandler
 
         virtual ~Shooting() = default;
 
-        virtual bool onClick(const LibWarhammerEngine::Game& game, const QPoint& pos,
-                             const Qt::MouseButtons buttons) override;
+        virtual bool onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& pos,
+                                  const Qt::MouseButtons buttons) override;
+
+        virtual bool onMouseMove(const LibWarhammerEngine::Game& game, const QPoint& pos) override;
 
         virtual bool drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const override;
 
@@ -40,8 +42,8 @@ namespace Gui::ScreenEventHandler
         bool selectShooter(const LibWarhammerEngine::Game& game, const QPoint& pos);
 
         /**
-        * @pre m_current_selection.has_value()
-        */
+         * @pre m_current_selection.has_value()
+         */
         bool selectTarget(const LibWarhammerEngine::Game& game, const QPoint& pos);
     };
 
