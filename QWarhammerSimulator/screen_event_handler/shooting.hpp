@@ -32,12 +32,13 @@ namespace Gui::ScreenEventHandler
         virtual bool drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const override;
 
     private:
-        boost::optional<std::size_t> unitIndex(const LibWarhammerEngine::Army& army, const QPoint& pos) const;
+        boost::optional<UnitIndex> unitIndex(const LibWarhammerEngine::Game& game, const std::size_t player, const QPoint& pos) const;
 
         static const bool c_is_registered;
 
-        boost::optional<Selection> m_current_selection;
-        boost::optional<Selection> m_current_target;
+        boost::optional<SelectionWithColor> m_current_selection;
+        boost::optional<SelectionWithColor> m_current_target;
+        boost::optional<SelectionWithColor> m_current_hover;
 
         bool selectShooter(const LibWarhammerEngine::Game& game, const QPoint& pos);
 
@@ -45,6 +46,7 @@ namespace Gui::ScreenEventHandler
          * @pre m_current_selection.has_value()
          */
         bool selectTarget(const LibWarhammerEngine::Game& game, const QPoint& pos);
+
     };
 
 } // namespace Gui::ScreenEventHandler

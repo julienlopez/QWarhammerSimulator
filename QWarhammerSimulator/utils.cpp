@@ -22,17 +22,16 @@ void drawRectangle(QPainter& p, const LibGeometry::Rectangle& rect)
                             fromPoint(rect.bottomLeft()), fromPoint(rect.topLeft())});
 }
 
-void paintSelection(QPainter& painter, const LibWarhammerEngine::Game& game, const Selection& selection,
-                    const QColor& color)
+void paintSelection(QPainter& painter, const LibWarhammerEngine::Game& game, const SelectionWithColor& selection)
 {
-    const auto& unit = game.army(game.currentPlayer()).m_units[selection.unit_index];
+    const auto& unit = getUnit(game, selection.selection);
     painter.save();
     auto pen = painter.pen();
-    pen.setColor(color);
-    pen.setWidthF(0.2);
+    pen.setColor(selection.color);
+    pen.setWidthF(selection.width);
     painter.setPen(pen);
     Utils::drawRectangle(painter, unit.rectangle());
-    for(const auto& model_index : selection.models)
+    for(const auto& model_index : selection.selection.models)
     {
         pen.setWidthF(0.1);
         painter.setPen(pen);
@@ -41,4 +40,9 @@ void paintSelection(QPainter& painter, const LibWarhammerEngine::Game& game, con
     painter.restore();
 }
 
+const LibWarhammerEngine::Unit& getUnit(const LibWarhammerEngine::Game& game, const Selection& selection)
+{
+    return game.army(selection.unit_index.player_index).m_units[selection.unit_index.unit_index];
 }
+
+} // namespace QWarhammerSimulator::Gui::Utils

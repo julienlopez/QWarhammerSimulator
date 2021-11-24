@@ -16,11 +16,13 @@ namespace LibGeometry
 namespace LibWarhammerEngine
 {
     class Game;
-}
+    class Unit;
+} // namespace LibWarhammerEngine
 
 namespace Gui
 {
     struct Selection;
+    struct SelectionWithColor;
 
     namespace Utils
     {
@@ -29,8 +31,10 @@ namespace Gui
 
         void drawRectangle(QPainter& p, const LibGeometry::Rectangle& rect);
 
-        void paintSelection(QPainter& painter, const LibWarhammerEngine::Game& game, const Selection& selection,
-                            const QColor& color);
+        void paintSelection(QPainter& painter, const LibWarhammerEngine::Game& game,
+                            const SelectionWithColor& selection);
+
+        const LibWarhammerEngine::Unit& getUnit(const LibWarhammerEngine::Game& game, const Selection& selection);
 
     } // namespace Utils
 

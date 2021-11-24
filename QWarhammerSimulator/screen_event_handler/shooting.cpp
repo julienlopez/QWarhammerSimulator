@@ -22,6 +22,29 @@ namespace
         return {(double)(qpoint.x()), (double)(qpoint.y())};
     }
 
+    auto drawSelection(const LibWarhammerEngine::Game& game, QPainter& p)
+    {
+        return [&](const SelectionWithColor& selection) -> bool
+        {
+            Utils::paintSelection(p, game, selection);
+            return true;
+        };
+    }
+
+    auto addColor(const QColor& color, const double width)
+    {
+        return [=](const Selection& selection) { return SelectionWithColor{selection, color, width}; };
+    }
+
+    auto paintOrClear(boost::optional<SelectionWithColor>& variable)
+    {
+        return [&variable](const boost::optional<SelectionWithColor>& selection)
+        {
+            variable = selection;
+            return variable.has_value();
+        };
+    }
+
 } // namespace
 
 bool Shooting::onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
@@ -35,24 +58,24 @@ bool Shooting::onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& 
 
 bool Shooting::onMouseMove(const LibWarhammerEngine::Game& game, const QPoint& pos)
 {
-    return false;
+    return paintOrClear(m_current_hover)(unitIndex(game, game.currentPlayer(), pos).map(addColor(Qt::yellow, 0.1)));
 }
 
 bool Shooting::drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const
 {
-    return m_current_selection
-        .map([this, &game, &p](const Selection selection) {
-            Utils::paintSelection(p, game, selection, Qt::yellow);
-            return true;
-        })
-        .value_or(false);
+    m_current_hover.map(drawSelection(game, p));
+    m_current_selection.map(drawSelection(game, p));
+    m_current_target.map(drawSelection(game, p));
+    return true;
 }
 
-boost::optional<std::size_t> Shooting::unitIndex(const LibWarhammerEngine::Army& army, const QPoint& pos) const
+boost::optional<UnitIndex> Shooting::unitIndex(const LibWarhammerEngine::Game& game, const std::size_t player,
+                                               const QPoint& pos) const
 {
+    const auto& army = game.army(player);
     for(std::size_t i = 0; i < army.m_units.size(); i++)
     {
-        if(army.m_units[i].rectangle().contains(toPoint(pos))) return i;
+        if(army.m_units[i].rectangle().contains(toPoint(pos))) return UnitIndex{player, i};
     }
     return boost::none;
 }
@@ -62,25 +85,15 @@ const bool Shooting::c_is_registered
 
 bool Shooting::selectShooter(const LibWarhammerEngine::Game& game, const QPoint& pos)
 {
-    m_current_selection = unitIndex(game.army(game.currentPlayer()), pos);
-    return m_current_selection
-        .map([this, &game](const Selection selection) {
-            std::cout << "Unit clicked : " << selection.unit_index << std::endl;
-            const auto& unit = game.army(game.currentPlayer()).m_units[selection.unit_index];
-            std::cout << unit.rectangle().topLeft() << std::endl;
-            std::cout << unit.rectangle().bottomRight() << std::endl;
-            return true;
-        })
-        .value_or_eval([this]() {
-            m_current_selection = boost::none;
-            return false;
-        });
+    const auto shooter = unitIndex(game, game.currentPlayer(), pos);
+    return paintOrClear(m_current_selection)(shooter.map(addColor(Qt::yellow, 0.2)));
 }
 
 bool Shooting::selectTarget(const LibWarhammerEngine::Game& game, const QPoint& pos)
 {
     Expects(m_current_selection.has_value());
-    const auto target = unitIndex(game.army(game.currentPlayer() + 1 % 2), pos);
+    const auto target = unitIndex(game, game.currentPlayer() + 1 % 2, pos);
+    return paintOrClear(m_current_target)(target.map(addColor(Qt::red, 0.2)));
 }
 
 } // namespace QWarhammerSimulator::Gui::ScreenEventHandler
