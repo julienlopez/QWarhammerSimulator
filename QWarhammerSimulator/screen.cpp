@@ -23,6 +23,7 @@ Screen::Screen(const LibWarhammerEngine::Game& game, QWidget* parent)
     , m_offset(0, 0)
     , m_resolution_factor(-1.)
 {
+    setMouseTracking(true);
 }
 
 void Screen::paintEvent(QPaintEvent* evt)

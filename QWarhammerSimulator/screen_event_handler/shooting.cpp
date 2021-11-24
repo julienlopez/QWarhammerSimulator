@@ -40,8 +40,9 @@ namespace
     {
         return [&variable](const boost::optional<SelectionWithColor>& selection)
         {
+            const auto res = variable.has_value() == selection.has_value();
             variable = selection;
-            return variable.has_value();
+            return res;
         };
     }
 
@@ -49,7 +50,6 @@ namespace
 
 bool Shooting::onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
 {
-    std::cout << "Shooting::onClick(" << toPoint(pos) << ")" << std::endl;
     if(m_current_selection)
         return selectTarget(game, pos);
     else
@@ -58,7 +58,10 @@ bool Shooting::onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& 
 
 bool Shooting::onMouseMove(const LibWarhammerEngine::Game& game, const QPoint& pos)
 {
-    return paintOrClear(m_current_hover)(unitIndex(game, game.currentPlayer(), pos).map(addColor(Qt::yellow, 0.1)));
+    if(m_current_selection && m_current_target) return false;
+    const QColor color{m_current_selection ? Qt::red : Qt::yellow};
+    const auto player{m_current_selection ? (game.currentPlayer()+1%2) : game.currentPlayer()};
+    return paintOrClear(m_current_hover)(unitIndex(game, player, pos).map(addColor(color, 0.1)));
 }
 
 bool Shooting::drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const
