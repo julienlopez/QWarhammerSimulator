@@ -28,6 +28,11 @@ std::size_t Game::currentPlayer() const
     return m_turn_phase.currentPlayer();
 }
 
+std::size_t Game::otherPlayer() const
+{
+    return m_turn_phase.otherPlayer();
+}
+
 TurnPhase Game::currentPhase() const
 {
     return m_turn_phase.currentPhase();

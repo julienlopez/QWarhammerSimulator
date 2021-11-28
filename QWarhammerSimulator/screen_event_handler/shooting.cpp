@@ -68,7 +68,7 @@ bool Shooting::onMouseMove(const LibWarhammerEngine::Game& game, const QPoint& p
 {
     if(m_current_selection && m_current_target) return false;
     const QColor color{m_current_selection ? Qt::red : Qt::yellow};
-    const auto player{m_current_selection ? (game.currentPlayer()+1%2) : game.currentPlayer()};
+    const auto player{m_current_selection ? game.otherPlayer() : game.currentPlayer()};
     return paintOrClear(m_current_hover)(unitIndex(game, player, pos).map(addColor(color, 0.1)));
 }
 
@@ -103,7 +103,7 @@ bool Shooting::selectShooter(const LibWarhammerEngine::Game& game, const QPoint&
 bool Shooting::selectTarget(const LibWarhammerEngine::Game& game, const QPoint& pos)
 {
     Expects(m_current_selection.has_value());
-    const auto target = unitIndex(game, game.currentPlayer() + 1 % 2, pos);
+    const auto target = unitIndex(game, game.otherPlayer(), pos);
     return paintOrClear(m_current_target)(target.map(addColor(Qt::red, 0.2)));
 }
 

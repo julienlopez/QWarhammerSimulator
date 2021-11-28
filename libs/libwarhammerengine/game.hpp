@@ -30,6 +30,8 @@ public:
 
     std::size_t currentPlayer() const;
 
+    std::size_t otherPlayer() const;
+
     TurnPhase currentPhase() const;
 
     std::size_t currentTurnNumber() const;

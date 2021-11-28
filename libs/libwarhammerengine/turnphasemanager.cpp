@@ -13,6 +13,11 @@ std::size_t TurnPhaseManager::currentPlayer() const
     return m_current_player;
 }
 
+std::size_t TurnPhaseManager::otherPlayer() const
+{
+    return (m_current_player + 1) % 2;
+}
+
 std::size_t TurnPhaseManager::currentTurnNumber() const
 {
     return m_current_turn_number;
