@@ -23,6 +23,8 @@ namespace Gui::ScreenEventHandler
     public:
         virtual ~IScreenEventHandler() = default;
 
+        virtual bool reset() = 0;
+
         virtual bool onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& pos,
                                   const Qt::MouseButtons buttons)
             = 0;

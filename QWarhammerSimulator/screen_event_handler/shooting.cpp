@@ -48,6 +48,14 @@ namespace
 
 } // namespace
 
+bool Shooting::reset()
+{
+    m_current_selection = boost::none;
+    m_current_target = boost::none;
+    m_current_hover = boost::none;
+    return true;
+}
+
 bool Shooting::onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& pos, const Qt::MouseButtons buttons)
 {
     if(m_current_selection)

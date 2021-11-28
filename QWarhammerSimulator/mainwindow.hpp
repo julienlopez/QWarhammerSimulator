@@ -12,6 +12,8 @@ namespace LibWarhammerEngine
 
 namespace Gui
 {
+    class Header;
+    class Screen;
 
     class MainWindow : public QMainWindow
     {
@@ -24,6 +26,10 @@ namespace Gui
 
     private:
         std::unique_ptr<LibWarhammerEngine::Game> m_game;
+        Header* m_header;
+        Screen* m_screen;
+
+        void switchToNextPhase();
     };
 
 } // namespace Gui

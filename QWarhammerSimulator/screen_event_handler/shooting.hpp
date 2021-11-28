@@ -24,6 +24,8 @@ namespace Gui::ScreenEventHandler
 
         virtual ~Shooting() = default;
 
+        virtual bool reset() override;
+
         virtual bool onMouseClick(const LibWarhammerEngine::Game& game, const QPoint& pos,
                                   const Qt::MouseButtons buttons) override;
 
