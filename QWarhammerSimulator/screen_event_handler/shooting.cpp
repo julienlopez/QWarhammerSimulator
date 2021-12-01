@@ -46,6 +46,15 @@ namespace
         };
     }
 
+    auto triggerIfTrue(boost::signals2::signal<void()>& signal)
+    {
+        return [&](const bool modified)
+        {
+            if(modified) signal();
+            return modified;
+        };
+    }
+
 } // namespace
 
 bool Shooting::reset()
@@ -97,14 +106,14 @@ const bool Shooting::c_is_registered
 bool Shooting::selectShooter(const LibWarhammerEngine::Game& game, const QPoint& pos)
 {
     const auto shooter = unitIndex(game, game.currentPlayer(), pos);
-    return paintOrClear(m_current_selection)(shooter.map(addColor(Qt::yellow, 0.2)));
+    return triggerIfTrue(m_update_signal)(paintOrClear(m_current_selection)(shooter.map(addColor(Qt::yellow, 0.2))));
 }
 
 bool Shooting::selectTarget(const LibWarhammerEngine::Game& game, const QPoint& pos)
 {
     Expects(m_current_selection.has_value());
     const auto target = unitIndex(game, game.otherPlayer(), pos);
-    return paintOrClear(m_current_target)(target.map(addColor(Qt::red, 0.2)));
+    return triggerIfTrue(m_update_signal)(paintOrClear(m_current_target)(target.map(addColor(Qt::red, 0.2))));
 }
 
 } // namespace QWarhammerSimulator::Gui::ScreenEventHandler

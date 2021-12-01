@@ -19,6 +19,9 @@ namespace Gui::PhaseSpecificCommandPanel
         explicit ShootingCommandPanel(QWidget* parent = nullptr);
 
         virtual ~ShootingCommandPanel() = default;
+
+    private:
+        void updateValues();
     };
 
 } // namespace Gui::PhaseSpecificCommandPanel

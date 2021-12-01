@@ -2,6 +2,8 @@
 
 #include <QPoint>
 
+#include <boost/signals2/signal.hpp>
+
 class QPainter;
 
 namespace QWarhammerSimulator
@@ -17,8 +19,13 @@ namespace Gui::ScreenEventHandler
 
     class IScreenEventHandler
     {
+    public:
+        using VoidSignal_t = boost::signals2::signal<void()>;
+
     protected:
         explicit IScreenEventHandler() = default;
+
+        VoidSignal_t m_update_signal;
 
     public:
         virtual ~IScreenEventHandler() = default;
@@ -35,6 +42,11 @@ namespace Gui::ScreenEventHandler
         }
 
         virtual bool drawAdditionalStates(const LibWarhammerEngine::Game& game, QPainter& p) const = 0;
+
+        auto onUpdate(const VoidSignal_t::slot_type& slot)
+        {
+            return m_update_signal.connect(slot);
+        }
     };
 
 } // namespace Gui::ScreenEventHandler
