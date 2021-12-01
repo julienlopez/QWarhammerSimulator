@@ -1,17 +1,11 @@
 #pragma once
 
+#include "turnphase.hpp"
+
 #include <utility>
 
 namespace QWarhammerSimulator::LibWarhammerEngine
 {
-
-enum class TurnPhase
-{
-    Movement = 0,
-    Magic,
-    Shooting,
-    CloseCombat
-};
 
 class TurnPhaseManager
 {

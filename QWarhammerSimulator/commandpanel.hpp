@@ -1,23 +1,47 @@
 #pragma once
 
+#include <turnphase.hpp>
+
+#include <map>
+
 #include <QWidget>
 
-namespace QWarhammerSimulator::Gui
+class QStackedWidget;
+
+namespace QWarhammerSimulator
 {
 
-class CommandPanel : public QWidget
+namespace LibWarhammerEngine
 {
-    Q_OBJECT
+    class Game;
+    class Unit;
+} // namespace LibWarhammerEngine
 
-public:
-    explicit CommandPanel(QWidget* parent = nullptr);
+namespace Gui
+{
 
-    virtual ~CommandPanel() = default;
+    class CommandPanel : public QWidget
+    {
+        Q_OBJECT
 
-signals:
-    void endPhasePressed();
+    public:
+        explicit CommandPanel(const LibWarhammerEngine::Game& game, QWidget* parent = nullptr);
 
-private:
-};
+        virtual ~CommandPanel() = default;
 
-} // namespace QWarhammerSimulator::Gui
+    signals:
+        void endPhasePressed();
+
+    private:
+        const LibWarhammerEngine::Game& m_game;
+        std::map<LibWarhammerEngine::TurnPhase, QWidget*> m_turnphase_specific_widgets;
+        QStackedWidget* m_turnphase_specific_panel;
+
+        QWidget* createTurnPhaseSpecificPanel();
+
+        void updatePhaseSpecificPanel();
+    };
+
+} // namespace Gui
+
+} // namespace QWarhammerSimulator

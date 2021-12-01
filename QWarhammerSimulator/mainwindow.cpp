@@ -28,7 +28,7 @@ MainWindow::MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* 
     auto* hl = new QHBoxLayout;
     m_screen = new Screen{*m_game};
     hl->addWidget(m_screen);
-    auto* command_panel = new CommandPanel;
+    auto* command_panel = new CommandPanel{*m_game};
     connect(command_panel, &CommandPanel::endPhasePressed, this, &MainWindow::switchToNextPhase);
     hl->addWidget(command_panel);
     vl->addLayout(hl);
