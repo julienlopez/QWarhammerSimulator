@@ -32,6 +32,8 @@ namespace Gui
 
         virtual void mouseReleaseEvent(QMouseEvent* evt) override;
 
+        virtual void mouseMoveEvent(QMouseEvent* evt) override;
+
     private:
         const LibWarhammerEngine::Game& m_game;
         QPoint m_offset;
@@ -42,6 +44,10 @@ namespace Gui
         void drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const;
         
         void drawBoard(QPainter& p) const;
+
+        void drawBackground(QPainter& p) const;
+
+        QPoint screenToBoard(const QPoint& screen_pos) const;
     };
 
 } // namespace Gui

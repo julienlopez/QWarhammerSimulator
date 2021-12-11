@@ -1,17 +1,11 @@
 #pragma once
 
+#include "turnphase.hpp"
+
 #include <utility>
 
 namespace QWarhammerSimulator::LibWarhammerEngine
 {
-
-enum class TurnPhase
-{
-    Movement = 0,
-    Magic,
-    Shooting,
-    CloseCombat
-};
 
 class TurnPhaseManager
 {
@@ -22,6 +16,8 @@ public:
     TurnPhase currentPhase() const;
 
     std::size_t currentPlayer() const;
+
+    std::size_t otherPlayer() const;
 
     std::size_t currentTurnNumber() const;
 

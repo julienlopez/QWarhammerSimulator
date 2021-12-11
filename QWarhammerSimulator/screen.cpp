@@ -4,23 +4,34 @@
 #include "screen_event_handler/screeneventhanlderfactory.hpp"
 
 #include "game.hpp"
+#include "utils.hpp"
 
 #include <QMouseEvent>
 #include <QPainter>
 #include <QResizeEvent>
 
+using std::placeholders::_1;
+
 namespace QWarhammerSimulator::Gui
 {
+
+using ScreenEventHandler::IScreenEventHandler;
 
 Screen::Screen(const LibWarhammerEngine::Game& game, QWidget* parent)
     : QWidget(parent)
     , m_game(game)
+    , m_offset(0, 0)
+    , m_resolution_factor(-1.)
 {
+    setMouseTracking(true);
 }
 
 void Screen::paintEvent(QPaintEvent* evt)
 {
     QPainter p{this};
+    drawBackground(p);
+    p.translate(m_offset);
+    p.scale(m_resolution_factor, m_resolution_factor);
     drawBoard(p);
     for(std::size_t i = 0; i < 2; i++)
     {
@@ -30,6 +41,9 @@ void Screen::paintEvent(QPaintEvent* evt)
             drawUnit(p, unit);
         }
     }
+    auto event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
+    event_handler.map(
+        std::bind(std::mem_fn(&IScreenEventHandler::drawAdditionalStates), _1, std::cref(m_game), std::ref(p)));
 }
 
 void Screen::resizeEvent(QResizeEvent* evt)
@@ -43,12 +57,33 @@ void Screen::resizeEvent(QResizeEvent* evt)
 
 void Screen::mouseReleaseEvent(QMouseEvent* evt)
 {
-    auto* event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
-    if(event_handler)
-    {
-        event_handler->onClick(evt->pos(), evt->buttons());
-        evt->accept();
-    }
+    auto event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
+    event_handler
+        .map(std::bind(std::mem_fn(&IScreenEventHandler::onMouseClick), _1, m_game, screenToBoard(evt->pos()),
+                       evt->buttons()))
+        .map([this, &evt](const bool has_acted) {
+            if(has_acted)
+            {
+                evt->accept();
+                update();
+            }
+            return has_acted;
+        });
+}
+
+void Screen::mouseMoveEvent(QMouseEvent* evt)
+{
+    auto event_handler = ScreenEventHandler::ScreenEventHandlerFactory::get(m_game.currentPhase());
+    event_handler
+        .map(std::bind(std::mem_fn(&IScreenEventHandler::onMouseMove), _1, m_game, screenToBoard(evt->pos())))
+        .map([this, &evt](const bool has_acted) {
+            if(has_acted)
+            {
+                evt->accept();
+                update();
+            }
+            return has_acted;
+        });
 }
 
 void Screen::drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const
@@ -58,27 +93,38 @@ void Screen::drawUnit(QPainter& p, const LibWarhammerEngine::Unit& unit) const
     pen.setColor(Qt::black);
     pen.setWidthF(0.1);
     p.setPen(pen);
+
     const auto& rect = unit.rectangle();
-    p.drawRect(rect.topLeft().x, rect.topLeft().y, rect.width(), rect.height());
+    Utils::drawRectangle(p, rect);
+
+    for(std::size_t i = 0; i < unit.numberOfModels(); i++)
+        Utils::drawRectangle(p, unit.modelRectangle(i));
+
     p.restore();
 }
 
 void Screen::drawBoard(QPainter& p) const
 {
     p.save();
-    p.setPen(Qt::black);
-    p.setBrush(Qt::black);
-    p.drawRect(rect());
-    p.restore();
-
-    p.translate(m_offset);
-    p.scale(m_resolution_factor, m_resolution_factor);
-
-    p.save();
     p.setPen(Qt::green);
     p.setBrush(Qt::green);
     p.drawRect(0, 0, m_game.board().size.x, m_game.board().size.y);
     p.restore();
+}
+
+void Screen::drawBackground(QPainter& p) const
+{
+    p.save();
+    p.setPen(Qt::black);
+    p.setBrush(Qt::black);
+    p.drawRect(rect());
+    p.restore();
+}
+
+QPoint Screen::screenToBoard(const QPoint& screen_pos) const
+{
+    const auto res = screen_pos - m_offset;
+    return {(int)(res.x() / m_resolution_factor), (int)(res.y() / m_resolution_factor)};
 }
 
 } // namespace QWarhammerSimulator::Gui

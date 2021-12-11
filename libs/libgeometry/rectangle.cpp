@@ -43,6 +43,18 @@ Point Rectangle::topRight() const
     return m_center + fwd_vec * (m_size.y / 2) - (normalVector(fwd_vec)) * (m_size.x / 2);
 }
 
+Point Rectangle::bottomLeft() const
+{
+    const auto fwd_vec = forwardUnitVector();
+    return m_center - fwd_vec * (m_size.y / 2) + (normalVector(fwd_vec)) * (m_size.x / 2);
+}
+
+Point Rectangle::bottomRight() const
+{
+    const auto fwd_vec = forwardUnitVector();
+    return m_center - fwd_vec * (m_size.y / 2) - (normalVector(fwd_vec)) * (m_size.x / 2);
+}
+
 Point Rectangle::forwardUnitVector() const
 {
     return {std::cos(m_orientation), std::sin(m_orientation)};
@@ -66,6 +78,17 @@ double Rectangle::width() const
 double Rectangle::orientation() const
 {
     return m_orientation;
+}
+
+bool Rectangle::contains(const Point& p) const
+{
+    // (0<AP.AB<AB.AB)|(0<AP.AD<AD.AD)
+    const auto a = topLeft();
+    const auto b = topRight();
+    const auto d = bottomLeft();
+    const auto ap_ab = dot(p - a, b - a);
+    const auto ap_ad = dot(p - a, d - a);
+    return ap_ab >= 0 && ap_ad >= 0 && ap_ab <= dot(b - a, b - a) && ap_ad <= dot(d - a, d - a);
 }
 
 } // namespace QWarhammerSimulator::LibGeometry

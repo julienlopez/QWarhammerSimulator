@@ -30,4 +30,21 @@ TEST_CASE("Basic Rectangle Usage", "[LibGeometry]")
         CHECK_THAT(r.topLeft(), Equals({-2.5, 1}));
         CHECK_THAT(r.topRight(), Equals({2.5, 1}));
     }
+
+    SECTION("Rectangle::contains of a zero orientation rectangle (facing right)")
+    {
+        Rectangle r{{0, 0}, 0, {5, 2}};
+
+        // corners
+        CHECK(r.contains({0., 0.}));
+        CHECK(r.contains({1., 2.5}));
+        CHECK(r.contains({1., -2.5}));
+        CHECK(r.contains({-1., -2.5}));
+        CHECK(r.contains({-1., 2.5}));
+
+        CHECK(r.contains({0.5, -1.}));
+        CHECK(r.contains({0.5, 1.}));
+        CHECK(r.contains({-0.5, -1.}));
+        CHECK(r.contains({-0.5, 1.}));
+    }
 }

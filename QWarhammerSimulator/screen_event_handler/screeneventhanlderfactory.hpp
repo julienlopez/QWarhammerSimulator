@@ -1,5 +1,7 @@
 #pragma once
 
+#include "monadicpointer.hpp"
+
 #include "turnphasemanager.hpp"
 
 #include <map>
@@ -20,7 +22,7 @@ public:
      *
      * Returns a null pointer if there is no handler for the given phase
      */
-    static IScreenEventHandler* get(const LibWarhammerEngine::TurnPhase phase);
+    static LibUtils::MonadicPointer<IScreenEventHandler> get(const LibWarhammerEngine::TurnPhase phase);
 
     static bool registerHandler(const LibWarhammerEngine::TurnPhase phase,
                                 std::unique_ptr<IScreenEventHandler> handler);

@@ -6,6 +6,9 @@
 #include "header.hpp"
 #include "screen.hpp"
 
+#include "screen_event_handler/iscreeneventhanlder.hpp"
+#include "screen_event_handler/screeneventhanlderfactory.hpp"
+
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
@@ -19,16 +22,14 @@ MainWindow::MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* 
     auto* w = new QWidget;
     auto* vl = new QVBoxLayout;
 
-    auto* m_header = new Header{*m_game};
+    m_header = new Header{*m_game};
     vl->addWidget(m_header);
 
     auto* hl = new QHBoxLayout;
-    hl->addWidget(new Screen{*m_game});
-    auto* command_panel = new CommandPanel;
-    connect(command_panel, &CommandPanel::endPhasePressed, [this, m_header]() {
-        m_game->endCurrentPhase();
-        m_header->updateGame();
-    });
+    m_screen = new Screen{*m_game};
+    hl->addWidget(m_screen);
+    auto* command_panel = new CommandPanel{*m_game};
+    connect(command_panel, &CommandPanel::endPhasePressed, this, &MainWindow::switchToNextPhase);
     hl->addWidget(command_panel);
     vl->addLayout(hl);
 
@@ -37,5 +38,15 @@ MainWindow::MainWindow(std::unique_ptr<LibWarhammerEngine::Game> game, QWidget* 
 }
 
 MainWindow::~MainWindow() = default;
+
+void MainWindow::switchToNextPhase()
+{
+    if(!m_game) return;
+    m_game->endCurrentPhase();
+    ScreenEventHandler::ScreenEventHandlerFactory::get(m_game->currentPhase())
+        .map(std::mem_fn(&ScreenEventHandler::IScreenEventHandler::reset));
+    m_header->updateGame();
+    m_screen->update();
+}
 
 } // namespace QWarhammerSimulator::Gui

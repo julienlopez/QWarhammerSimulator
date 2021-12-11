@@ -13,21 +13,19 @@ add_executable(
   ${EXE_TARGET_NAME}
   "main.cpp"
   "mainwindow.cpp"
-  "mainwindow.hpp"
-  "screen.hpp"
   "screen.cpp"
-  "header.hpp"
   "header.cpp"
-  "commandpanel.hpp"
   "commandpanel.cpp"
-  "playerheader.hpp"
   "playerheader.cpp"
-  "screen_event_handler/iscreeneventhanlder.hpp"
-  "screen_event_handler/screeneventhanlderfactory.hpp"
-  "screen_event_handler/screeneventhanlderfactory.cpp")
+  "screen_event_handler/screeneventhanlderfactory.cpp"
+  "screen_event_handler/shooting.cpp"
+  "utils.cpp"
+  "phase_specific_command_panel/shooting_command_panel.cpp"
+  "statswidget.cpp")
 
 target_link_libraries(
-  ${EXE_TARGET_NAME} PRIVATE QWarhammerSimulator::LibWarhammerEngine
+  ${EXE_TARGET_NAME} PRIVATE QWarhammerSimulator::LibUtils
+                             QWarhammerSimulator::LibWarhammerEngine
                              Qt6::Widgets Qt6::Gui Qt6::Core)
 
 # copy the required librairies
